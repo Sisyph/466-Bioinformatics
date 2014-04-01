@@ -1,0 +1,12 @@
+Assignment 2, Problem 3
+Permutation-based tests of significance
+
+Implement a program that:
+	  a. reads a Fasta file and counts the number of occurences of a given word in the DNA sequence (denoted by N)
+	  b. permutes the given sequence 1000 times and counts the occurrences of the same work in each of those permutations
+	  c. calculates the "p-value" of N, i.e., the fraction of times that the ovserved count in the permuted sequences was as large or larger than N
+	  d. prints the length of the sequence, the count N, and the p-value of N
+
+The program should be run as: 
+<programfilename> <FastaFilename> <word>
+The input word will be of length <= 10
