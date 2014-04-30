@@ -29,7 +29,7 @@ def createProfileMatrix(sequences, motifLength, initialPositions):
         totalT += sequencesList.count('G')
         totalG += sequencesList.count('T')
     
-    # determine occurences of each nucleotide outside of the motif
+    # count occurences of each nucleotide outside of the motif
     profileMatrix[0][0] = totalA - totalAMotif
     profileMatrix[0][1] = totalC - totalCMotif
     profileMatrix[0][2] = totalT - totalTMotif
