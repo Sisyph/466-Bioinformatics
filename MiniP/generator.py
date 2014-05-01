@@ -39,7 +39,7 @@ def make_seqs(SL, SC):
 
 	return output
 
-#is biased to place stars near beginning of motif
+#
 def gen_motif(ML,NM):
 	output = ""
 	inputs = range(ML)
@@ -73,30 +73,55 @@ def gen_bind_sites(motif,SC):
 	return output	
 
 #choses bind sites in same order as seqs, maybe want to randomize
+#output is (sequence with implant, start location of implant) tuple array
 def genBoundSeqs(seqs, bind_sites, ML, SL):
 	output = []
 	for x in range(len(seqs)):
 		pos = random.randint(0,SL-ML)
-		output.append(seqs[x][0:pos] + bind_sites[x] + seqs[x][pos+ML:])
+		output.append((seqs[x][0:pos] + bind_sites[x] + seqs[x][pos+ML:],pos))
 	return output
 
 #pass in params to generate all the sequences and files for those params
 def generator(ML,NM,SL,SC):
 	pDir = "data/set_"+str(ML)+"_"+str(NM)+"_"+str(SC)
 	for run in range(0,10):
-		subDir = pDir + "/_"+str(run) 
+		subDir = pDir + "/_"+str(run) + "/" 
 		seqs = make_seqs(SL,SC)		#array of strings
 		motif = gen_motif(ML,NM)	#string
 		bind_sites = gen_bind_sites(motif,SC)	#array of strings
-		boundSeqs = genBoundSeqs(seqs, bind_sites, ML, SL)	#array of strings
+		boundSeqs = genBoundSeqs(seqs, bind_sites, ML, SL)	#array of (string, int) tuples
+		
+		fo = open(subDir + "motiflength.txt",'w')
+		fo.write(str(ML))
+		fo.close()
 
+		fo = open(subDir + "motif.txt",'w')
+		fo.write("MOTIF1	" + str(ML) +   "	"+ motif)
+		fo.close()
+
+		fo = open(subDir + "sites.txt",'w')
+		for x in boundSeqs:
+			fo.write(str(x[1])+"\n")
+		fo.close()
+
+		fo = open(subDir + "sequences.fa",'w')
+		for x in boundSeqs:
+			fo.write(">Sequence1\n")
+			fo.write(x[0] + "\n")
+		fo.close()
 
 if __name__ == "__main__":
 	print "hello generator"
 	make_subdirs()
-	generator(8,1,50,10)
+	generator(8,1,500,10)
+	generator(6,1,500,10)
+	generator(7,1,500,10)
+	generator(8,0,500,10)
+	generator(8,2,500,10)
+	generator(8,1,500,5)
+	generator(8,1,500,20)
+	print "done generating"
 
-	#7 calls to generator
 
 	
 #create a directory /data/
