@@ -9,7 +9,8 @@ def createProfileMatrix(sequences, initialPositions):
     for x in range(0, globals.motifLength):
         for y in range(0, len(sequences)):
             sequenceList = list(sequences[y])
-            nucleotide = sequenceList[initialPositions[y] + x]
+            initialPosition = initialPositions[y]
+            nucleotide = sequenceList[initialPosition + x]
             if nucleotide is 'A':
                 profileMatrix[0][x + 1] += 1
                 totalAMotif += 1
