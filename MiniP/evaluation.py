@@ -60,9 +60,9 @@ def motifToPWM(motifFile):
 	for x in list(line):
 		if (x == 'A'):
 			output.append( (.9970,0.000996,.000996,.000996) )
-		elif (x == 'C'):
-			output.append( (.000996,.99700,.000996,.000996) )
 		elif (x == 'T'):
+			output.append( (.000996,.99700,.000996,.000996) )
+		elif (x == 'C'):
 			output.append( (.000996,.000996,.9970,.000996) )
 		elif (x == 'G'):
 			output.append( (.000996,0.000996,.000996,.9970) )
