@@ -25,7 +25,7 @@ def findMotif(sequences, motifLength):
         # choose a random motif position for each unchosen sequence
         positions = chooseMotifPositions()
 
-        # initialze global position variable
+        # initialize global position variable
         #   - unchosenPositions
         globals.initializePositions(positions)
 
