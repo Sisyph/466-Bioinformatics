@@ -58,7 +58,6 @@ def motifToPWM(motifFile):
 	handle = open(motifFile)
 	line = handle.readline()
 	for x in list(line)[6:]:
-		print x
 		if (x == 'A'):
 			output.append( (.9970,0.000996,.000996,.000996) )
 		elif (x == 'T'):
