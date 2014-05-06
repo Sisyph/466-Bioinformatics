@@ -14,14 +14,14 @@ def createProbabilityMatrix(profileMatrix):
     return probabilityMatrix
 
 def __frequencyCount(profileMatrix, x, y, numberOfUnchosenSequences):
-    pseudoCount = 0.1
-    totalOfPseudoCount = 0.4
+    pseudoCount = 0.0000001
+    totalOfPseudoCount = pseudoCount * 4
     count = profileMatrix[x][y]
     return (count + pseudoCount) / (numberOfUnchosenSequences + totalOfPseudoCount)
 
 def __backgroundFrequencyCount(profileMatrix, x):
-    pseudoCount = 0.1
-    totalOfPseudoCount = 0.4
+    pseudoCount = 0.0000001
+    totalOfPseudoCount = pseudoCount * 4
     count = profileMatrix[x][0]
     total = 0
     for row in range(0, 4):

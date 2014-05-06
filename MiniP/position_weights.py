@@ -20,10 +20,10 @@ def __calculatePositionWeight(sequence, probabilityMatrix, startingPosition):
         if nucleotide is 'A':
             sampleProbability = sampleProbability * probabilityMatrix[0][x]
             backgroundProbability = backgroundProbability * probabilityMatrix[0][0]
-        elif nucleotide is 'C':
+        elif nucleotide is 'T':
             sampleProbability = sampleProbability * probabilityMatrix[1][x]
             backgroundProbability = backgroundProbability * probabilityMatrix[1][0]
-        elif nucleotide is 'T':
+        elif nucleotide is 'C':
             sampleProbability = sampleProbability * probabilityMatrix[2][x]
             backgroundProbability = backgroundProbability * probabilityMatrix[2][0]
         elif nucleotide is 'G':
@@ -31,7 +31,7 @@ def __calculatePositionWeight(sequence, probabilityMatrix, startingPosition):
             backgroundProbability = backgroundProbability * probabilityMatrix[3][0]
     return sampleProbability / backgroundProbability
 
-def normalizePositionWeights(positionWeights):
+def normalizePositionWeights(positionWeights):    
     normalizedPositionWeights = []
     total = 0.0
     for weight in positionWeights:
@@ -41,6 +41,13 @@ def normalizePositionWeights(positionWeights):
     return normalizedPositionWeights
 
 def choosePosition(normalizedPositionWeights):
+    best = 0
+    for x in xrange(1, len(normalizedPositionWeights)):
+        if normalizedPositionWeights[x] > normalizedPositionWeights[best]:
+            best = x
+    return best
+
+
     # cdf is a cumulative probability distribution array
     cdf = [normalizedPositionWeights[0]]
     for x in xrange(1, len(normalizedPositionWeights)):
