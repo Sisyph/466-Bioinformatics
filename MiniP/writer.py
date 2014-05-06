@@ -9,7 +9,6 @@ def writePredictions(output, sequencesFile, motifLength):
     __writePredictedMotif(motifFile, output[1], motifLength)
     sitesFile.close()
     motifFile.close()
-    print "files written for " + path[-31:-13]
     return
 
 def __writePredictedSites(file, positions):
