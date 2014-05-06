@@ -1,3 +1,4 @@
-Name: 466-Bioinformatics
-Description: Programs for CS466 assignments
-Date created: 31 March 2014
+Motif Finder
+- to run generator: python generator.py
+- to run motif finder: python motif_finder.py
+- to run evaluation: python evaluation.py
