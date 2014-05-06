@@ -19,7 +19,7 @@ def __writePredictedSites(file, positions):
 def __writePredictedMotif(file, profileMatrix, motifLength):
     file.write(">MOTIF" +'\t' + str(motifLength))
     for x in range(1, globals.motifLength + 1):
-        file.write('\t')
+        file.write('\n')
         for y in range(0, 4):
             file.write(str(profileMatrix[y][x]) + '\t')
     return
