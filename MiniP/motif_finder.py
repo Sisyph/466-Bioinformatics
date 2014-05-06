@@ -25,7 +25,7 @@ def findMotif(sequences, motifLength):
         # choose a random motif position for each unchosen sequence
         positions = chooseMotifPositions()
 
-        # initialze global position variable
+        # initialize global position variable
         #   - unchosenPositions
         globals.initializePositions(positions)
 
@@ -80,7 +80,7 @@ def reset():
 
         
 if __name__ == "__main__":
-	print "running motif_finder.py..."
+	print "running motif finder..."
 
         # create array of motif length text files
         motifLengthFiles = directory.getFiles('motiflength.txt')
@@ -94,6 +94,8 @@ if __name__ == "__main__":
                 motifLength = reader.readMotifLengthFile(motifLengthFile)
                 output = findMotif(sequences, motifLength)
                 writer.writePredictions(output, sequencesFile, motifLength)
+
+        print "motif finder complete"
 
 
                 
