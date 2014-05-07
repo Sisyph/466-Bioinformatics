@@ -1,5 +1,6 @@
 # python packages
 import random
+import datetime
 
 # original packages
 import globals
@@ -22,23 +23,27 @@ def findMotif(sequences, motifLength):
         probabilityMatrix = []
         positionWeights = []
         normalizedPositionWeights = []
-        iterations = 1000
+        iterations = 500
 
         for iteration in range(0, iterations):
                 for unchosenSequence in range(0, len(sequences)):
-                        # count residue occurences for each position for all unchosen sequences
+                        # count residue occurences for each position for 
+                        # all unchosen sequences
                         profileMatrix = profile_matrix.createProfileMatrix(positions, unchosenSequence)
 
-                        # determine frequency and background frequency for each of the residue occurences
+                        # determine frequency and background frequency 
+                        # for each of the residue occurences
                         probabilityMatrix = probability_matrix.createProbabilityMatrix(profileMatrix)
 
-                        # calculate weight for each possible motif position in the chosen sequence
+                        # calculate weight for each possible motif position 
+                        # in the chosen sequence
                         positionWeights = position_weights.calculatePositionWeights(probabilityMatrix)
 
                         # normalize position weights
                         normalizedPositionWeights = position_weights.normalizePositionWeights(positionWeights)
                         
-                        # randomly choose position based on normalized probabilities
+                        # randomly choose position based on normalized 
+                        # probabilities
                         positions[unchosenSequence] = position_weights.choosePosition(normalizedPositionWeights)
         
                         if unchosenSequence < (len(sequences) - 1):
@@ -61,6 +66,10 @@ def reset():
 if __name__ == "__main__":
 	print "running motif finder..."
 
+        startTime = datetime.datetime.now()
+        print "start time = "
+        print startTime
+
         # create array of motif length text files
         motifLengthFiles = directory.getFiles('motiflength.txt')
         sequencesFiles = directory.getFiles('sequences.fa')
@@ -75,6 +84,13 @@ if __name__ == "__main__":
                 output = findMotif(sequences, motifLength)
                 writer.writePredictions(output, sequencesFile, motifLength)
                 print "files written for " + str(sequencesFile)
+
+        endTime = datetime.datetime.now()
+        print "end time = "
+        print endTime
+        
+        print "run time = "
+        print endTime - startTime
 
         print "motif finder complete"
 

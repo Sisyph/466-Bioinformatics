@@ -1,6 +1,6 @@
 # python packages
 from bisect import bisect
-import random
+from random import random
 
 # original packages
 import globals
@@ -49,11 +49,11 @@ def choosePosition(normalizedPositionWeights):
     # return best
 
     # sample from top five probabilities
-    sortedWeights = list(normalizedPositionWeights)
-    sortedWeights.sort(reverse=True)
-    randomIndex = random.randrange(0, 5)
-    indexValue = sortedWeights[randomIndex]
-    return normalizedPositionWeights.index(indexValue)
+    #sortedWeights = list(normalizedPositionWeights)
+    #sortedWeights.sort(reverse=True)
+    #randomIndex = random.randrange(0, 5)
+    #indexValue = sortedWeights[randomIndex]
+    #return normalizedPositionWeights.index(indexValue)
 
 
     # sample from all probabilities
