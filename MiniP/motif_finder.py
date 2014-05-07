@@ -23,13 +23,16 @@ def findMotif(sequences, motifLength):
         probabilityMatrix = []
         positionWeights = []
         normalizedPositionWeights = []
+        informationContent = 0
         iterations = 500
 
         for iteration in range(0, iterations):
-                for unchosenSequence in range(0, len(sequences)):
-                        # count residue occurences for each position for 
-                        # all unchosen sequences
-                        profileMatrix = profile_matrix.createProfileMatrix(positions, unchosenSequence)
+                for unchosenSequenceIndex in range(0, len(sequences)):
+                        globals.unchosenSequence = sequences[unchosenSequenceIndex]
+
+                        # count residue occurences and background occurrences
+                        # for each position for in the unchosen sequences
+                        profileMatrix = profile_matrix.createProfileMatrix(positions, unchosenSequenceIndex)
 
                         # determine frequency and background frequency 
                         # for each of the residue occurences
@@ -44,12 +47,10 @@ def findMotif(sequences, motifLength):
                         
                         # randomly choose position based on normalized 
                         # probabilities
-                        positions[unchosenSequence] = position_weights.choosePosition(normalizedPositionWeights)
-        
-                        if unchosenSequence < (len(sequences) - 1):
-                                globals.initialSequence = sequences[unchosenSequence + 1]
-                reset()
-        
+                        positions[unchosenSequenceIndex] = position_weights.choosePosition(normalizedPositionWeights)
+
+                        # determine information content
+                        informationContent = probability_matrix.calculateInformationContent(probabilityMatrix)
         return [positions, profileMatrix]
 
 def chooseMotifPositions():
@@ -58,9 +59,9 @@ def chooseMotifPositions():
                 positions.append(random.randint(0, globals.lengthOfSequences - globals.motifLength))
         return positions
 
-def reset():
-    globals.initialSequence = globals.sequences[0]
-    return
+# def reset():
+    # globals.initialSequence = globals.sequences[0]
+    # return
 
         
 if __name__ == "__main__":
@@ -74,6 +75,7 @@ if __name__ == "__main__":
         motifLengthFiles = directory.getFiles('motiflength.txt')
         sequencesFiles = directory.getFiles('sequences.fa')
         numberOfFiles = len(motifLengthFiles)
+        # numberOfFiles = 20
 
         # iterate over arrays 
         for x in range(0, numberOfFiles):

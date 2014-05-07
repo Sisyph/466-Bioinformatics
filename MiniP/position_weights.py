@@ -8,7 +8,7 @@ import globals
 def calculatePositionWeights(probabilityMatrix):
     positionWeights = []
     for startingPosition in range(0, globals.possibleMotifPositions):
-        positionWeights.append(__calculatePositionWeight(globals.initialSequence, probabilityMatrix, startingPosition))
+        positionWeights.append(__calculatePositionWeight(globals.unchosenSequence, probabilityMatrix, startingPosition))
     return positionWeights
 
 def __calculatePositionWeight(sequence, probabilityMatrix, startingPosition):
@@ -42,11 +42,11 @@ def normalizePositionWeights(positionWeights):
 
 def choosePosition(normalizedPositionWeights):
     # sample from best probability
-    # best = 0
-    # for x in xrange(1, len(normalizedPositionWeights)):
-    #    if normalizedPositionWeights[x] > normalizedPositionWeights[best]:
-    #        best = x
-    # return best
+    #best = 0
+    #for x in xrange(1, len(normalizedPositionWeights)):
+    #   if normalizedPositionWeights[x] > normalizedPositionWeights[best]:
+    #       best = x
+    #return best
 
     # sample from top five probabilities
     #sortedWeights = list(normalizedPositionWeights)
@@ -62,4 +62,9 @@ def choosePosition(normalizedPositionWeights):
     for x in xrange(1, len(normalizedPositionWeights)):
         cdf.append(cdf[-1] + normalizedPositionWeights[x])
     randomIndex = bisect(cdf, random())
-    return randomIndex
+    return randomIndex    
+
+    
+    
+    
+    
