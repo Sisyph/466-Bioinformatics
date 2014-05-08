@@ -17,27 +17,27 @@ def fileToSites( siteFile):
 	return out
 
 #doesnt work unless there are same num of site and predicted site files
-def siteOverlap(sitesFiles, predSitesFiles):
+#def siteOverlap(sitesFiles, predSitesFiles):
 #	if (len(sitesFiles) != len(predSitesFiles)):
 #		print "site/pred sites length mismatch"
 #		return -1
-	output = []
-	for y in range(0,7):
-		count = 0	
-		for x in range(0,10 ):
-			try:
-				preds = fileToSites(predSitesFiles[y*10 + x])	#array of ints
-				sites = fileToSites(sitesFiles[y*10 + x])	
-				for itr in preds:
-					if (itr in sites):
-						count += 1
+#	output = []
+#	for y in range(0,7):
+#		count = 0	
+#		for x in range(0,10 ):
+#			try:
+#				preds = fileToSites(predSitesFiles[y*10 + x])	#array of ints
+#				sites = fileToSites(sitesFiles[y*10 + x])	
+#				for itr in preds:
+#					if (itr in sites):
+#						count += 1
+#
+#			except IndexError:
+#				count += 0
+#		output.append((sitesFiles[y*10],count/10))
+#	return output
 
-			except IndexError:
-				count += 0
-		output.append((sitesFiles[y*10],count/10))
-	return output
-
-def siteOverlap2(sitesFiles, predSitesFiles):
+def siteOverlap(sitesFiles, predSitesFiles):
         output = []
         count = 0
         for x in range(0, len(sitesFiles)):
@@ -111,7 +111,7 @@ if __name__ == "__main__":
 
 	sitesFiles = directory.getFiles('sites.txt') 
 	predSitesFiles = directory.getFiles('predictedsites.txt')
-	site_result = siteOverlap2(sitesFiles,predSitesFiles)
+	site_result = siteOverlap(sitesFiles,predSitesFiles)
 
 	fo = open('site_output.txt','w')
 	for x in site_result:
