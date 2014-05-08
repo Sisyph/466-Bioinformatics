@@ -19,56 +19,63 @@ def findMotif(sequences, motifLength):
         positions = chooseMotifPositions()
 
         # initialize iteration variables
+        iterations = 100
+        currentInformationContent = 0.0
+        bestInformationContent = 0.0
         profileMatrix = []
         probabilityMatrix = []
         positionWeights = []
         normalizedPositionWeights = []
-        iterations = 500
+        bestPositions = []
+        bestProfileMatrix = []
 
         for iteration in range(0, iterations):
-                for unchosenSequence in range(0, len(sequences)):
-                        # count residue occurences for each position for 
-                        # all unchosen sequences
-                        profileMatrix = profile_matrix.createProfileMatrix(positions, unchosenSequence)
+                for unchosenSequenceIndex in range(0, len(sequences)):
+                        # count residue occurences for each position for all unchosen sequences
+                        profileMatrix = profile_matrix.createProfileMatrix(positions, unchosenSequenceIndex)
 
-                        # determine frequency and background frequency 
-                        # for each of the residue occurences
+                        # determine frequency and background frequency for each of the residue occurences
                         probabilityMatrix = probability_matrix.createProbabilityMatrix(profileMatrix)
 
-                        # calculate weight for each possible motif position 
-                        # in the chosen sequence
+                        # calculate weight for each possible motif position in the chosen sequence
                         positionWeights = position_weights.calculatePositionWeights(probabilityMatrix)
 
                         # normalize position weights
                         normalizedPositionWeights = position_weights.normalizePositionWeights(positionWeights)
                         
-                        # randomly choose position based on normalized 
-                        # probabilities
-                        positions[unchosenSequence] = position_weights.choosePosition(normalizedPositionWeights)
+                        # randomly choose position based on normalized probabilities
+                        positions[unchosenSequenceIndex] = position_weights.choosePosition(normalizedPositionWeights)
+                        
+                        # recalculate profile and probability matrix
+                        profileMatrix = profile_matrix.createProfileMatrix(positions, -1)
+                        probabilityMatrix = probability_matrix.createProbabilityMatrix(profileMatrix)
+
+                        # calculate information content of sample
+                        currentInformationContent = probability_matrix.calculateInformationContent(probabilityMatrix, positions)
+                        
+                        if currentInformationContent > bestInformationContent:
+                                bestInformationContent = currentInformationContent
+                                bestPositions = list(positions)
+                                bestProfileMatrix = list(profileMatrix)
         
-                        if unchosenSequence < (len(sequences) - 1):
-                                globals.initialSequence = sequences[unchosenSequence + 1]
-                reset()
+                        if unchosenSequenceIndex < (len(sequences) - 1):
+                                globals.unchosenSequence = sequences[unchosenSequenceIndex + 1]
         
-        return [positions, profileMatrix]
+        print "information content = " + str(bestInformationContent)
+        return [bestPositions, bestProfileMatrix]
 
 def chooseMotifPositions():
         positions = []
         for x in range(0, globals.numberOfSequences): 
                 positions.append(random.randint(0, globals.lengthOfSequences - globals.motifLength))
         return positions
-
-def reset():
-    globals.initialSequence = globals.sequences[0]
-    return
-
         
 if __name__ == "__main__":
-	print "running motif finder..."
+        print "\nRunning motif finder..."
+        print "-----------------------" + '\n'
 
         startTime = datetime.datetime.now()
-        print "start time = "
-        print startTime
+        print "start time = " + str(startTime) + '\n'
 
         # create array of motif length text files
         motifLengthFiles = directory.getFiles('motiflength.txt')
@@ -83,20 +90,15 @@ if __name__ == "__main__":
                 motifLength = reader.readMotifLengthFile(motifLengthFile)
                 output = findMotif(sequences, motifLength)
                 writer.writePredictions(output, sequencesFile, motifLength)
-                print "files written for " + str(sequencesFile)
+                print "files written for " + str(sequencesFile) + '\n'
 
         endTime = datetime.datetime.now()
-        print "end time = "
-        print endTime
-        
-        print "run time = "
-        print endTime - startTime
+        print "\nend time = " + str(endTime)
+        print "run time = " + str(endTime - startTime)
 
-        print "motif finder complete"
+        print "\n---------------------"
+        print "Motif finder complete" + '\n'
 
-
-                
-        
 
 #for each of the 70 subdirectories does the following
 #reads in motiflength.txt and sequences.fa

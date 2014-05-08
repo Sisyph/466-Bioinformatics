@@ -1,6 +1,6 @@
 import globals
 
-def createProfileMatrix(positions, unchosenSequence):
+def createProfileMatrix(positions, unchosenSequenceIndex):
     profileMatrix = [[0 for x in xrange(globals.motifLength + 1)] for x in xrange(4)]
     totalAMotif, totalCMotif, totalTMotif, totalGMotif = 0, 0, 0, 0
     totalA, totalC, totalT, totalG = 0, 0, 0, 0
@@ -8,7 +8,7 @@ def createProfileMatrix(positions, unchosenSequence):
 
     # count occurences of each nucleotide in each position of the motif
     for x in range(0, len(sequences)):
-        if x != unchosenSequence:
+        if x != unchosenSequenceIndex:
             sequenceList = list(sequences[x])
             for y in range(0, globals.motifLength):
                 initialPosition = positions[x]
@@ -28,7 +28,7 @@ def createProfileMatrix(positions, unchosenSequence):
     
     # count occurences of each nucleotide in entire sequence
     for x in range(0, len(sequences)):
-        if x != unchosenSequence:
+        if x != unchosenSequenceIndex:
             sequenceList = list(sequences[x])
             totalA += sequenceList.count('A') 
             totalT += sequenceList.count('T')

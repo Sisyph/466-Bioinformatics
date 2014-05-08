@@ -1,5 +1,6 @@
 # python packages
 from copy import copy, deepcopy
+import math
 
 # original packages
 import globals
@@ -28,6 +29,36 @@ def __backgroundFrequencyCount(profileMatrix, x):
     for row in range(0, 4):
         total += profileMatrix[row][0]
     return (count + pseudoCount) / (total + totalOfPseudoCount)
+
+def calculateInformationContent(probabilityMatrix, positions):
+    sequences = globals.sequences
+    informationContent = 0.0
+    backgroundA = probabilityMatrix[0][0]
+    backgroundT = probabilityMatrix[1][0]
+    backgroundC = probabilityMatrix[2][0]
+    backgroundG = probabilityMatrix[3][0]
+    for sequenceIndex in range(0, len(sequences)):
+        sequence = list(sequences[sequenceIndex])
+        for x in range(0, globals.motifLength):
+            position = positions[sequenceIndex] + x
+            nucleotide = sequence[position]
+            if nucleotide == 'A':
+                residual = probabilityMatrix[0][x + 1]
+                informationContent += residual * math.log(residual / backgroundA)
+            elif nucleotide == 'T':
+                residual = probabilityMatrix[1][x + 1]
+                informationContent += residual * math.log(residual / backgroundT)
+            elif nucleotide == 'C':
+                residual = probabilityMatrix[2][x + 1]
+                background = probabilityMatrix[2][0]
+                informationContent += residual * math.log(residual / backgroundC)
+            elif nucleotide == 'G':
+                residual = probabilityMatrix[3][x + 1]
+                informationContent += residual * math.log(residual / backgroundG)
+    return informationContent
+            
+            
+                
     
     
     
