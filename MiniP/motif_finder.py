@@ -83,7 +83,7 @@ if __name__ == "__main__":
         numberOfFiles = len(motifLengthFiles)
 
         # iterate over arrays 
-        for x in range(0, numberOfFiles, 4):
+        for x in range(0, numberOfFiles):
                 sequencesFile = sequencesFiles[x]
                 motifLengthFile = motifLengthFiles[x]
                 sequences = reader.readFastaFile(sequencesFile)
