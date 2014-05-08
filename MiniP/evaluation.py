@@ -37,6 +37,19 @@ def siteOverlap(sitesFiles, predSitesFiles):
 		output.append((sitesFiles[y*10],count/10))
 	return output
 
+def siteOverlap2(sitesFiles, predSitesFiles):
+        output = []
+        count = 0
+        for x in range(0, len(sitesFiles)):
+                preds = fileToSites(sitesFiles[x])
+                sites = fileToSites(predSitesFiles[x])
+                for itr in preds:
+                        if (itr in sites):
+                                count += 1
+                output.append((sitesFiles[x], count))
+                count = 0
+        return output
+ 
 #
 def computeEntropy(motifFiles, predMotifFiles):
 	output = []
@@ -98,7 +111,7 @@ if __name__ == "__main__":
 
 	sitesFiles = directory.getFiles('sites.txt') 
 	predSitesFiles = directory.getFiles('predictedsites.txt')
-	site_result = siteOverlap(sitesFiles,predSitesFiles)
+	site_result = siteOverlap2(sitesFiles,predSitesFiles)
 
 	fo = open('site_output.txt','w')
 	for x in site_result:

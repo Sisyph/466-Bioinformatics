@@ -19,7 +19,7 @@ def findMotif(sequences, motifLength):
         positions = chooseMotifPositions()
 
         # initialize iteration variables
-        iterations = 100
+        iterations = 200
         currentInformationContent = 0.0
         bestInformationContent = 0.0
         profileMatrix = []
