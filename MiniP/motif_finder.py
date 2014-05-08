@@ -31,10 +31,10 @@ def findMotif(sequences, motifLength, iterations):
 
         for iteration in range(0, iterations):
                 for unchosenSequenceIndex in range(0, len(sequences)):
-                        # count residue occurences for each position for all unchosen sequences
+                        # count residue and background occurences for each position for all unchosen sequences
                         profileMatrix = profile_matrix.createProfileMatrix(positions, unchosenSequenceIndex)
 
-                        # determine frequency and background frequency for each of the residue occurences
+                        # determine residue and background probabilities
                         probabilityMatrix = probability_matrix.createProbabilityMatrix(profileMatrix)
 
                         # calculate weight for each possible motif position in the chosen sequence
@@ -50,14 +50,16 @@ def findMotif(sequences, motifLength, iterations):
                         profileMatrix = profile_matrix.createProfileMatrix(positions, -1)
                         probabilityMatrix = probability_matrix.createProbabilityMatrix(profileMatrix)
 
-                        # calculate information content of sample
+                        # calculate information content of current sample
                         currentInformationContent = probability_matrix.calculateInformationContent(probabilityMatrix, positions)
                         
+                        # update best sample if current has greater information content
                         if currentInformationContent > bestInformationContent:
                                 bestInformationContent = currentInformationContent
                                 bestPositions = list(positions)
                                 bestProfileMatrix = list(profileMatrix)
         
+                        # update unchosen sequence value for next iteration
                         if unchosenSequenceIndex < (len(sequences) - 1):
                                 globals.unchosenSequence = sequences[unchosenSequenceIndex + 1]
         
