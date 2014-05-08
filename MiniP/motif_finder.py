@@ -1,6 +1,7 @@
 # python packages
 import random
 import datetime
+import sys
 
 # original packages
 import globals
@@ -11,7 +12,7 @@ import profile_matrix
 import probability_matrix
 import position_weights
 
-def findMotif(sequences, motifLength):
+def findMotif(sequences, motifLength, iterations):
         # initialize global sequence and motif variables
         globals.initialize(sequences, motifLength)
 
@@ -19,7 +20,6 @@ def findMotif(sequences, motifLength):
         positions = chooseMotifPositions()
 
         # initialize iteration variables
-        iterations = 200
         currentInformationContent = 0.0
         bestInformationContent = 0.0
         profileMatrix = []
@@ -61,8 +61,7 @@ def findMotif(sequences, motifLength):
                         if unchosenSequenceIndex < (len(sequences) - 1):
                                 globals.unchosenSequence = sequences[unchosenSequenceIndex + 1]
         
-        print "information content = " + str(bestInformationContent)
-        return [bestPositions, bestProfileMatrix]
+        return [bestPositions, bestProfileMatrix, bestInformationContent]
 
 def chooseMotifPositions():
         positions = []
@@ -83,14 +82,20 @@ if __name__ == "__main__":
         numberOfFiles = len(motifLengthFiles)
 
         # iterate over arrays 
+        informationContent = 0
         for x in range(0, numberOfFiles):
                 sequencesFile = sequencesFiles[x]
                 motifLengthFile = motifLengthFiles[x]
                 sequences = reader.readFastaFile(sequencesFile)
                 motifLength = reader.readMotifLengthFile(motifLengthFile)
-                output = findMotif(sequences, motifLength)
+                output = findMotif(sequences, motifLength, int(sys.argv[1]))
+                informationContent += output[2]
                 writer.writePredictions(output, sequencesFile, motifLength)
-                print "files written for " + str(sequencesFile) + '\n'
+                print "files written for " + str(sequencesFile)
+                if (x + 1) % 10 == 0:
+                        print "\naverage information content for this set: " + str(informationContent/10) + '\n'
+                        informationContent = 0
+                        
 
         endTime = datetime.datetime.now()
         print "\nend time = " + str(endTime)
