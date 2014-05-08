@@ -45,6 +45,13 @@ def normalizePositionWeights(positionWeights):
     return normalizedPositionWeights
 
 def choosePosition(normalizedPositionWeights):
+    # sample from best probability
+    #best = 0
+    #for x in xrange(1, len(normalizedPositionWeights)):
+    #   if normalizedPositionWeights[x] > normalizedPositionWeights[best]:
+    #       best = x
+    #return best
+
     # sample from all probabilities
     # cdf is a cumulative probability distribution array
     cdf = [normalizedPositionWeights[0]]
@@ -52,10 +59,3 @@ def choosePosition(normalizedPositionWeights):
         cdf.append(cdf[-1] + normalizedPositionWeights[x])
     randomIndex = bisect(cdf, random())
     return randomIndex
-    
-    # sample from best probability
-    best = 0
-    for x in xrange(1, len(normalizedPositionWeights)):
-        if normalizedPositionWeights[x] > normalizedPositionWeights[best]:
-            best = x
-    return best
