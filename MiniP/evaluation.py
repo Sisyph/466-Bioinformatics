@@ -54,11 +54,16 @@ def siteOverlap(sitesFiles, predSitesFiles):
 def computeEntropy(motifFiles, predMotifFiles):
 	output = []
 	for y in range(0,7):	
+                totalEntropy = 0.0
 		for x in range(0,10 ):
 			try:
 				predPWM = reader.readPWM(predMotifFiles[y*10 + x])	#array of floats
 				motifPWM = motifToPWM(motifFiles[y*10 + x])	
-				output.append((motifFiles[y*10 + x], relEntropy(predPWM , motifPWM)))
+                                relativeEntropy = relEntropy(predPWM, motifPWM)
+				output.append((motifFiles[y*10 + x], relativeEntropy))
+                                totalEntropy += relativeEntropy
+                                if x == 9:
+                                        output.append(("average entropy for this set ", str(totalEntropy/10.0)))
 			except IndexError:
 				output.append(("Bad Input", -1.0))
 				output.append(("Bad Input", -1.0))
