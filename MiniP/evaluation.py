@@ -37,6 +37,10 @@ def fileToSites( siteFile):
 #		output.append((sitesFiles[y*10],count/10))
 #	return output
 
+#counts the number of times the predicted site= actual binding site. Gets half score for 1 away
+#.25 for 2 away etc up to 4 away
+#this gives a lot more granularity over just counting exact hits at the cost of slight overcount if 
+#bind sites are in same position in different sequences
 def siteOverlap(sitesFiles, predSitesFiles):
         output = []
         count = 0
@@ -44,8 +48,17 @@ def siteOverlap(sitesFiles, predSitesFiles):
                 preds = fileToSites(sitesFiles[x])
                 sites = fileToSites(predSitesFiles[x])
                 for itr in preds:
-                        if (itr in sites):
-                                count += 1
+                        for j in sites:
+				if (itr == j):
+                                	count += 1
+				elif (abs(itr-j)==1):
+					count += 0.5 
+				elif (abs(itr-j)==2):
+					count += 0.25 
+				elif (abs(itr-j)==3):
+					count += 0.125
+				elif (abs(itr-j)==4):
+					count += 0.0625 
                 output.append((sitesFiles[x], count))
                 count = 0
         return output
